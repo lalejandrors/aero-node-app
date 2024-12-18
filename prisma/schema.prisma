@@ -1,0 +1,42 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRES_URL")
+}
+
+model passenger {
+  id Int @id @default(autoincrement())
+  password String @db.VarChar
+  identification String @db.VarChar
+  name String @db.VarChar
+  surname String @db.VarChar
+  birthday DateTime @db.Date
+  created_at DateTime @db.Timestamp
+  updated_at DateTime? @db.Timestamp
+  deleted_at DateTime? @db.Timestamp
+  flights flight[]
+}
+
+model flight {
+  id Int @id @default(autoincrement())
+  passenger passenger @relation(fields: [passenger_id], references: [id])
+  passenger_id Int
+  number String @db.VarChar
+  airline String @db.VarChar
+  departure_datetime DateTime @db.Timestamp
+  departure_city String @db.VarChar
+  arrival_city String @db.VarChar
+  seat String @db.VarChar
+  created_at DateTime @db.Timestamp
+  updated_at DateTime? @db.Timestamp
+  deleted_at DateTime? @db.Timestamp
+}
