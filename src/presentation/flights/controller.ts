@@ -1,12 +1,13 @@
 import { Request, Response } from 'express';
+import { envs } from "../../config/envs";
 import { prisma } from '../../data/postgres'
-import { _validationMissingFields } from '../../utils/validations';
+import { _logger, _validationMissingFields } from '../../utils';
 
 export class FlightController {
     constructor(){}
 
     public getFlights = async(req: Request, res: Response) => {
-        const missingFields = _validationMissingFields(req, 'identification');
+        const missingFields = _validationMissingFields(req, envs.REQUIRED_FIELDS_GET_FLIGHTS);
         if(missingFields.length > 0){
             return res.status(400).json({error: 'Required fields are missing', data: missingFields});
         }
@@ -42,11 +43,12 @@ export class FlightController {
                 },
             });
         } catch (error) {
-            console.error("Error searching flights", error);
-            return res.status(500).json({error: 'Internal Server Error'});
+            _logger.error(`Error searching flights: ${error}`, 'flights');
+
+            return res.status(500).json({error: 'Error in searching flights'});
         }
 
-        (flights.length > 0)
+        return (flights.length > 0)
             ? res.json(flights)
             : res.status(404).json({error: `Flights data with the client identification ${identification} was not found`});
     }

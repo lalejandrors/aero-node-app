@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { _verifyToken } from '../utils/jwt';
+import { _logger, _verifyToken } from '../utils';
 
 export const authenticateToken = (req: Request, res: Response, next: NextFunction) => {
     const token = req.headers['authorization']?.split(' ')[1];
@@ -13,7 +13,8 @@ export const authenticateToken = (req: Request, res: Response, next: NextFunctio
         (req as any).user = payload;
         next();
     } catch (error) {
-        console.error("Error verifying token:", error);
-        res.status(403).json({message: 'Invalid or expired token'});
+        _logger.error(`Error verifying token: ${error}`, 'auth');
+
+        return res.status(403).json({message: 'Invalid or expired token'});
     }
 }

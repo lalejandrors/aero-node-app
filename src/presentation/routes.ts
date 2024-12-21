@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import { FlightRoutes } from './flights/routes';
-import { AuthRoutes } from './auth/routes';
 import { authenticateToken } from '../middlewares/auth';
+import { AuthRoutes } from './auth/routes';
+import { FlightRoutes } from './flights/routes';
 
 export class AppRoutes {
 
