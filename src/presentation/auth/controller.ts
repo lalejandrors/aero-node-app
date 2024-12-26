@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import { envs } from "../../config/envs";
 import { Request, Response } from 'express';
 import { prisma } from '../../data/postgres'

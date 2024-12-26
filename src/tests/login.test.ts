@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import { Request, Response } from 'express';
 import { AuthController } from '../presentation/auth/controller';
 import { prisma } from '../data/postgres';
@@ -20,7 +20,7 @@ jest.mock('../utils', () => ({
     },
 }));
 
-jest.mock('bcrypt', () => ({
+jest.mock('bcryptjs', () => ({
     compare: jest.fn(),
     hash: jest.fn(),
 }));

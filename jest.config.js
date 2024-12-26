@@ -2,16 +2,16 @@
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
-  testMatch: ['**/tests/**/*.test.ts'], // Match your test files
-  collectCoverage: true, // Enable coverage reports
+  testMatch: ['**/tests/**/*.test.ts'],
+  collectCoverage: true,
   collectCoverageFrom: [
-    'src/**/*.ts', // Include your source files
-    '!src/**/*.d.ts', // Exclude type declaration files
-    '!src/app.ts', // Exclude entry points if needed
-    '!src/presentation/server.ts', // Exclude entry points if needed
-    '!src/**/index.ts', // Exclude index files
-    '!src/config/*.ts', // Exclude config files
+    'src/**/*.ts',
+    '!src/**/*.d.ts',
+    '!src/app.ts',
+    '!src/presentation/server.ts',
+    '!src/**/index.ts',
+    '!src/config/*.ts',
   ],
-  coverageDirectory: 'coverage', // Directory for coverage output
-  coverageReporters: ['text', 'lcov'], // Coverage output formats
+  coverageDirectory: 'coverage',
+  coverageReporters: ['text', 'lcov'],
 };
