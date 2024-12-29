@@ -1,6 +1,8 @@
 node_modules/
+dist/
 .env
 postgres/
 logs/
 coverage/
 docker-compose.yml.bk
+Dockerfilelocal.bk
