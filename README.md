@@ -13,14 +13,11 @@ This is a REST API about info of flights built with Node.js, Express, and TypeSc
 ## Table of Contents
 
 1. [Requirements](#requirements)
-2. [Setup](#setup)
+2. [Setup for localhost](#setup)
 3. [Scripts](#scripts)
 4. [Environment Variables](#environment-variables)
-5. [Database Management](#database-management)
-6. [Project Structure](#project-structure)
-7. [Deployment](#deployment)
-8. [Contributing](#contributing)
-9. [License](#license)
+5. [Contributing](#contributing)
+6. [License](#license)
 
 ## Requirements
 
@@ -29,7 +26,7 @@ This is a REST API about info of flights built with Node.js, Express, and TypeSc
 - PostgreSQL database (AWS RDS recommended)
 - Docker (optional, for deployment)
 
-## Setup
+## Setup for localhost
 
 1. **Clone the repository**:
 
@@ -47,14 +44,25 @@ This is a REST API about info of flights built with Node.js, Express, and TypeSc
    ```
 
 3. **Set up environment variables**:
-   Create a .env file in the root directory and add the following variables:
+- Duplicate .env.template and set it as .env in the root directory
+- Comment the section called 'AWS RDS' and uncomment the section 'CONTAINER IN LOCALHOST'
 
-   ```env
-   DATABASE_URL=postgresql://username:password@aws-instance-url:port/dbname
-   PORT=3000
-   ```
+4. **Create the docker image with postgres and a database**:
+- Run the following command: 
 
-4. **Run the application**:
+    ```bash
+    docker compose up -d
+    ```
+
+5. **Run the Prisma commands**:
+- Run the following commands in order to generate and configurate the database
+
+    ```bash
+    npx prisma init --datasource-provider PostgreSQL
+    npx prisma migrate dev --name init
+    ```
+
+6. **Run the application**:
 
    ```bash
    npm run dev
@@ -66,54 +74,27 @@ This is a REST API about info of flights built with Node.js, Express, and TypeSc
 
 - **npm run dev**: Starts the server in development mode with hot reload.
 - **npm run build**: Builds the TypeScript project.
-- **npm start**: Starts the server in production mode.
-- **npm run prisma:generate**: Generates Prisma client.
-- **npm run prisma:migrate**: Applies migrations.
+- **npm run start**: Starts the server in production mode.
+- **npm run test**: Starts the unit tests.
+- **npm run test:watch**: Starts the unit tests in watch mode.
+- **npm run test:coverage**: Starts the unit tests with coverage.
 
 ## Environment Variables
 
 | Variable      | Description                      | Example                                |
 |---------------|----------------------------------|----------------------------------------|
-| `DATABASE_URL`| Connection string for PostgreSQL DB | `postgresql://user:pass@host:port/dbname` |
-| `PORT`        | Port for the server              | `3000`    
-
-## Database management
-
-1. **Generate Prisma Client:**:
-
-   ```bash
-   npx prisma generate
-   ```
-
-2. **Run Migrations:**:
-
-   ```bash
-   npx prisma migrate deploy
-   ```
-
-3. **Access Prisma Studio (Optional GUI for database):**:
-
-   ```bash
-   npx prisma studio
-   ```
-
-## Deployment
-
-1. **Build the Project:**:
-
-   ```bash
-   npm run build
-   ```
-
-2. **Deploy to AWS Lambda with Docker:**:
-   Ensure the Dockerfile is correctly configured, then build and push your Docker image:
-
-   ```bash
-   docker build -t your-image-name .
-   docker push your-docker-repo/your-image-name
-   ```
-
-   Update your AWS Lambda function to use the new image.
+| `POSTGRES_URL`| Connection string for PostgreSQL DB | `postgresql://user:pass@host:port/dbname` |
+| `PORT`| Port for the server | `8080`    
+| `POSTGRES_USER`| User for PostgreSQL DB | `userdb` |
+| `POSTGRES_DB`| Name of the PostgreSQL DB | `mydbname` 
+| `POSTGRES_PORT`| Port for PostgreSQL DB | `5432` |
+| `POSTGRES_PASSWORD`| Password of the PostgreSQL DB | `abc123` 
+| `NODE_ENV`| Mode of the env | `production` |
+| `JWT_SECRET`| The secret for JWT | `0ee80b6f3bd822ef3238c5` 
+| `JWT_EXPIRES_IN`| Life time of the token | `1h` |
+| `REQUIRED_FIELDS_GET_FLIGHTS`| Required fields for Get Flights | `identification` 
+| `REQUIRED_FIELDS_LOGIN`| Required fields for Login | `identification,password` |
+| `REQUIRED_FIELDS_HASH`| Required fields for Hashing | `password` 
 
 ## Contributing
 Contributions are welcome! Please fork the repository and create a pull request.

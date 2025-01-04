@@ -4,5 +4,3 @@ dist/
 postgres/
 logs/
 coverage/
-docker-compose.yml.bk
-Dockerfilelocal.bk
