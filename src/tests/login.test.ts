@@ -6,7 +6,7 @@ import { _logger, _generateToken, _validationMissingFields } from '../utils';
 
 jest.mock('../data/postgres', () => ({
     prisma: {
-        passenger: {
+        user: {
             findFirst: jest.fn(),
         },
     },
@@ -54,23 +54,23 @@ describe('AuthController', () => {
             });
         });
 
-        it('Should return 404 if passenger is not found', async () => {
+        it('Should return 404 if user is not found', async () => {
             req.body = { identification: '12345', password: 'testpassword' };
             (_validationMissingFields as jest.Mock).mockReturnValue([]);
-            (prisma.passenger.findFirst as jest.Mock).mockResolvedValue(null);
+            (prisma.user.findFirst as jest.Mock).mockResolvedValue(null);
 
             await authController.login(req as Request, res as Response);
 
             expect(res.status).toHaveBeenCalledWith(404);
             expect(res.json).toHaveBeenCalledWith({
-                error: 'Passenger with identification 12345 not found',
+                error: 'User with identification 12345 not found',
             });
         });
 
         it('Should return 401 if password is incorrect', async () => {
             req.body = { identification: '12345', password: 'wrongpassword' };
             (_validationMissingFields as jest.Mock).mockReturnValue([]);
-            (prisma.passenger.findFirst as jest.Mock).mockResolvedValue({
+            (prisma.user.findFirst as jest.Mock).mockResolvedValue({
                 identification: '12345',
                 password: 'hashedpassword',
             });
@@ -85,7 +85,7 @@ describe('AuthController', () => {
         it('Should return a token if login is successful', async () => {
             req.body = { identification: '12345', password: 'correctpassword' };
             (_validationMissingFields as jest.Mock).mockReturnValue([]);
-            (prisma.passenger.findFirst as jest.Mock).mockResolvedValue({
+            (prisma.user.findFirst as jest.Mock).mockResolvedValue({
                 identification: '12345',
                 password: 'hashedpassword',
             });
@@ -104,7 +104,7 @@ describe('AuthController', () => {
         it('Should return 500 if an error occurs during password comparison', async () => {
             req.body = { identification: '12345', password: 'correctpassword' };
             (_validationMissingFields as jest.Mock).mockReturnValue([]);
-            (prisma.passenger.findFirst as jest.Mock).mockResolvedValue({
+            (prisma.user.findFirst as jest.Mock).mockResolvedValue({
                 identification: '12345',
                 password: 'hashedpassword',
             });

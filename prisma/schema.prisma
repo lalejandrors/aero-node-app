@@ -15,7 +15,6 @@ datasource db {
 
 model passenger {
   id Int @id @default(autoincrement())
-  password String @db.VarChar
   identification String @db.VarChar
   name String @db.VarChar
   surname String @db.VarChar
@@ -36,6 +35,15 @@ model flight {
   departure_city String @db.VarChar
   arrival_city String @db.VarChar
   seat String @db.VarChar
+  created_at DateTime @db.Timestamp
+  updated_at DateTime? @db.Timestamp
+  deleted_at DateTime? @db.Timestamp
+}
+
+model user {
+  id Int @id @default(autoincrement())
+  password String @db.VarChar
+  identification String @db.VarChar
   created_at DateTime @db.Timestamp
   updated_at DateTime? @db.Timestamp
   deleted_at DateTime? @db.Timestamp

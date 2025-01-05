@@ -16,15 +16,15 @@ export class AuthController {
         const {identification, password} = req.body;
 
         try {
-            const passenger = await prisma.passenger.findFirst({
+            const user = await prisma.user.findFirst({
                 where: {identification}
             });
-            if ( !passenger ) return res.status( 404 ).json( { error: `Passenger with identification ${ identification } not found` } );
+            if ( !user ) return res.status( 404 ).json( { error: `User with identification ${ identification } not found` } );
 
-            const passwordMatch = await bcrypt.compare(password, passenger.password);
+            const passwordMatch = await bcrypt.compare(password, user.password);
             if (!passwordMatch) return res.status( 401 ).json( { error: 'Invalid password' } );
 
-            const token = _generateToken({identification: passenger.identification});
+            const token = _generateToken({identification: user.identification});
             return res.status(201).json({message: 'Token has been generated', token: token});
         } catch (error) {
             _logger.error(`Error comparing password: ${error}`, 'login');
