@@ -55,10 +55,9 @@ This is a REST API about info of flights built with Node.js, Express, and TypeSc
     ```
 
 5. **Run the Prisma commands**:
-- Run the following commands in order to generate and configurate the database
+- Run the following commands in order to generate the database
 
     ```bash
-    npx prisma init --datasource-provider PostgreSQL
     npx prisma migrate dev --name init
     ```
 
